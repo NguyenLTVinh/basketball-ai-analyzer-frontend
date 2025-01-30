@@ -2,6 +2,12 @@
 
 import { useState, useRef } from "react";
 import Upload from "../components/Upload";
+import Chatbot from 'react-chatbot-kit';
+import ActionProvider from '../components/chatbot/ActionProvider';
+import MessageParser from '../components/chatbot/MessageParser';
+import config from '../components/chatbot/config';
+import 'react-chatbot-kit/build/main.css';
+
 
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState(null);
@@ -15,17 +21,6 @@ export default function Home() {
       videoRef.current.currentTime = timestamp;
       setResponse(`Video seeked to ${timestamp} seconds.`);
     }
-  };
-
-  const handleAsk = async () => {
-    if (!query) return;
-
-    // Simulate AI agent response
-    const answer = events
-      .filter((event) => event.event === "shoot")
-      .map((event) => event.time)
-      .join(", ");
-    setResponse(`A player shoots the ball at: ${answer}`);
   };
 
   return (
@@ -45,21 +40,9 @@ export default function Home() {
           </video>
         </div>
       )}
-
-      <div className="mt-4 w-96">
-        <h2 className="text-xl">AI Agent</h2>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-2 border rounded"
-          placeholder="Ask a question..."
-        />
-        <button onClick={handleAsk} className="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
-          Ask
-        </button>
-        <p className="mt-2">{response}</p>
-      </div>
+      <header className="App-header">
+        <Chatbot config={config} actionProvider={ActionProvider} messageParser={MessageParser} />
+      </header>
     </div>
   );
 }
