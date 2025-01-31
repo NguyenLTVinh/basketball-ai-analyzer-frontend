@@ -7,7 +7,7 @@ import ActionProvider from '../components/chatbot/ActionProvider';
 import MessageParser from '../components/chatbot/MessageParser';
 import config from '../components/chatbot/config';
 import 'react-chatbot-kit/build/main.css';
-
+import './globals.css';
 
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState(null);
@@ -24,25 +24,33 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center p-8">
-      <h1 className="text-2xl font-bold mb-4">Basketball AI Analyzer</h1>
-      <Upload
-        onUploadComplete={(url) => setVideoUrl(url)}
-        onAnalysisComplete={(events) => setEvents(events)}
-      />
-
-      {videoUrl && (
-        <div className="mt-4">
-          <h2 className="text-xl">Uploaded Video:</h2>
-          <video ref={videoRef} controls className="mt-2 w-96">
-            <source src={`http://127.0.0.1:8000/uploads/${videoUrl}`} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+    <div className="container">
+      <h1 className="title">Basketball AI Analyzer</h1>
+      <div className="content">
+        <div className="upload-section">
+          <Upload
+            onUploadComplete={(url) => setVideoUrl(url)}
+            onAnalysisComplete={(events) => setEvents(events)}
+          />
         </div>
-      )}
-      <header className="App-header">
-        <Chatbot config={config} actionProvider={ActionProvider} messageParser={MessageParser} />
-      </header>
+        <div className="video-section">
+          {videoUrl ? (
+            <video ref={videoRef} controls>
+              <source src={`http://127.0.0.1:8000/uploads/${videoUrl}`} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <div style={{ width: '100%', height: '100%', backgroundColor: 'black' }}></div>
+          )}
+        </div>
+        <div className="chatbot-section">
+          <Chatbot
+            config={config}
+            actionProvider={ActionProvider}
+            messageParser={MessageParser}
+          />
+        </div>
+      </div>
     </div>
   );
 }

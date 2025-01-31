@@ -19,3 +19,76 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* globals.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+
+.upload-section {
+  flex: 1;
+  max-width: 20%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.video-section {
+  flex: 3;
+  max-width: 60%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-section video {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+}
+
+.chatbot-section {
+  flex: 1;
+  max-width: 60%;
+}
+
+.react-chatbot-kit-chat-inner-container {
+  background-color: #171717;
+}
+
+.react-chatbot-kit-chat-header {
+  background-color: #171717;
+  color: #ededed;
+}
+
+.react-chatbot-kit-chat-message-container {
+  padding: 0 17.5px 10px 17.5px;
+  overflow: scroll;
+  height: 424px;
+}
+
+.react-chatbot-kit-chat-input {
+  color: black;
+}
+
+.react-chatbot-kit-chat-input::placeholder {
+  color: black;
+}

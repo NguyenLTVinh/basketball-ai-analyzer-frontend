@@ -5,10 +5,10 @@ const config = {
     initialMessages: [createChatBotMessage(`Hello, I'm your game analyzer. Please upload a video to start analysis.`)],
     customStyles: {
         botMessageBox: {
-          backgroundColor: "#376B7E",
+          backgroundColor: "#0a0a0a",
         },
         chatButton: {
-          backgroundColor: "#376B7E",
+          backgroundColor: "#0a0a0a",
         },
     }
 }
