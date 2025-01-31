@@ -38,19 +38,38 @@ export default function Upload({ onUploadComplete, onAnalysisComplete }) {
 
   const handleAnalyze = async (fileLocation) => {
     setAnalyzing(true);
-
+  
     try {
-      const analyzeResponse = await axios.post("http://127.0.0.1:8000/analyze/", {
+      await axios.post("http://127.0.0.1:8000/analyze/", {
         video_path: `uploads/${fileLocation}`,
       });
-      console.log("Analysis successful:", analyzeResponse.data);
-      onAnalysisComplete(analyzeResponse.data.events);
+  
+      console.log("Analysis started... polling for results.");
+  
+      const pollInterval = 5000; // Poll every 5 seconds
+  
+      const pollForResults = async () => {
+        try {
+          // Check if analysis is still running
+          const statusResponse = await axios.get("http://127.0.0.1:8000/status/");
+          if (statusResponse.data.analyzing) {
+            setTimeout(pollForResults, pollInterval); // Keep polling
+          } else {
+            // Analysis is complete, fetch events
+            const eventsResponse = await axios.get("http://127.0.0.1:8000/events/");
+            console.log("Analysis completed:", eventsResponse.data);
+            onAnalysisComplete(eventsResponse.data);
+            setAnalyzing(false);
+          }
+        } catch (error) {
+          console.error("Error polling events:", error);
+          setAnalyzing(false);
+        }
+      };
+  
+      pollForResults();
     } catch (error) {
-      console.error("Analysis error:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-      }
-    } finally {
+      console.error("Analysis request error:", error);
       setAnalyzing(false);
     }
   };
